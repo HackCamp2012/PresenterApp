@@ -1,3 +1,4 @@
+MIDlet-1: Main,,de.uulm.presenter.controler.Main
 MIDlet-Jar-URL: PresenterApp.jar
 MIDlet-Name: PresenterApp MIDlet Suite
 MIDlet-Vendor: MIDlet Suite Vendor
