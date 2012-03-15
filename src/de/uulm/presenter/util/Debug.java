@@ -6,8 +6,7 @@ public class Debug {
 	}
 	
 	public static void main(String[] args) {
-		Debug d = new Debug();
-		d.test();
+		
 	}
 
 }
