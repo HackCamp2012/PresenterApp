@@ -1,5 +1,7 @@
 package de.uulm.presenter.util;
 
+import de.uulm.presenter.controler.Main;
+
 public class Log {
 	/**
 	 * 
@@ -9,6 +11,9 @@ public class Log {
 	 */
 	public static void log(String log,Class class_,String method){
 				System.out.println("log: "+log+" \n Class: "+class_.toString()+"\n Method: "+method);
+				if (Main.main!=null){
+					Main.main.log(log);
+				}
 	}
 	
 	
