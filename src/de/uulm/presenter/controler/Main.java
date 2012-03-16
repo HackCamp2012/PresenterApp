@@ -3,8 +3,14 @@ package de.uulm.presenter.controler;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
+import com.sun.lwuit.Display;
+
+import de.uulm.presenter.view.PresenterScreen;
+
 public class Main extends MIDlet {
 
+	PresenterScreen p;
+	
 	public Main() {
 		// TODO Auto-generated constructor stub
 	}
@@ -20,8 +26,11 @@ public class Main extends MIDlet {
 	}
 
 	protected void startApp() throws MIDletStateChangeException {
-		// TODO Auto-generated method stub
-
+		
+		Display.init(this);
+		//Display d = Display.getInstance();
+		p = new PresenterScreen();
+		p.init();
 	}
 
 }
