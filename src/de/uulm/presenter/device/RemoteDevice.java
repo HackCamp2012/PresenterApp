@@ -5,6 +5,7 @@ import java.util.Vector;
 
 import javax.bluetooth.BluetoothStateException;
 
+import de.uulm.presenter.connection.protocol.MessageConstants;
 import de.uulm.presenter.connection.protocol.RemoteProtocol;
 
 public class RemoteDevice {
@@ -38,7 +39,18 @@ public class RemoteDevice {
 		client.connect(index);
 	}
 	
+	private void processKeys(Key[] k) {
+		for (int i = 0;i<k.length;i++){
+			int kc = k[i].getKeycode();
+			String action = MessageConstants.KEYDOWN;
+			if (k[i].isUp()){
+				action = MessageConstants.KEYUP;
+			}
+			//TODO json
+		}
+	}
+	
 	public void nextSlide(){
-		
+		processKeys( cmds.getNextSlide().getKeys() );
 	}
 }

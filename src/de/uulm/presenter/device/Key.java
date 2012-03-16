@@ -12,6 +12,14 @@ public class Key implements MessageConstants{
 		this.keycode = keycode;
 		this.isUp=isUp;
 	}
+
+	public boolean isUp() {
+		return isUp;
+	}
+
+	public int getKeycode() {
+		return keycode;
+	}
 	
 	
 	
