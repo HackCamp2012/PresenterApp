@@ -1,2 +1,6 @@
 /.mtj.tmp/
 /.mtj
+.class
+/deployed/
+/bin/
+
