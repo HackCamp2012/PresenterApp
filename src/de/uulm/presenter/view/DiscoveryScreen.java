@@ -44,6 +44,11 @@ public class DiscoveryScreen extends MainStyle implements ActionListener{
 		
 		addComponent(title);
 		
+		if(devices.size()==0){
+			Label noDevice = new Label("No devices Found");
+			addComponent(noDevice);
+		}
+		
 		for(int i=0; i<devices.size(); i++){
 			rb = new RadioButton(devices.elementAt(i).toString());
 			rb.setPressedStyle(PresenterStyle.getRadioStyle(f));
