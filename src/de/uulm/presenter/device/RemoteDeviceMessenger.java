@@ -9,14 +9,14 @@ import org.json.me.JSONException;
 import org.json.me.JSONObject;
 
 import de.uulm.presenter.connection.protocol.MessageConstants;
-import de.uulm.presenter.connection.protocol.RemoteProtocol;
+import de.uulm.presenter.connection.protocol.MessageProtocol;
 
 public class RemoteDeviceMessenger {
-	protected final RemoteProtocol client;
+	protected final MessageProtocol client;
 	protected final CommandMapping cmds;
 	public RemoteDeviceMessenger() {
 		cmds = CommandMapping.getDefaultMapping();
-		client = new RemoteProtocol();
+		client = new MessageProtocol();
 	}
 
 	public CommandMapping getCommandMapping(){
@@ -45,6 +45,7 @@ public class RemoteDeviceMessenger {
 				o.put("type", MessageConstants.KEY);
 				o.put("event", k[i].getAction());
 				o.put("keycode", k[i].getKeycode());
+				
 				this.client.sendMessage( o.toString() );
 				
 			} catch (JSONException e) {
