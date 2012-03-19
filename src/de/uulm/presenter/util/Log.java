@@ -1,5 +1,6 @@
 package de.uulm.presenter.util;
 
+
 public class Log {
 	/**
 	 * 

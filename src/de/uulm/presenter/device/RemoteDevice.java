@@ -1,20 +1,22 @@
 package de.uulm.presenter.device;
 
-import java.util.Vector;
 
-public class RemoteDevice {
+
+public class RemoteDevice extends RemoteDeviceMessenger{
+
+	private static final RemoteDevice instance = new RemoteDevice(); 
 	
-	private static final RemoteDevice r = new RemoteDevice();
-
-	public static RemoteDevice getInstance(){
-		return r;
+	
+	public static final RemoteDevice getInstance(){
+		return instance;
 	}
 	
-	public Vector getDevices(){
-		Vector v = new Vector(3);
-		v.addElement("Device 1");
-		v.addElement("Device 2");
-		v.addElement("Device 3");
-		return v;
+	public void nextSlide(){
+		processKeys( cmds.getNextSlide().getKeys() );
 	}
+	public void prevSlide(){
+		processKeys( cmds.getPrevSlide().getKeys() );
+	}
+	
+
 }
