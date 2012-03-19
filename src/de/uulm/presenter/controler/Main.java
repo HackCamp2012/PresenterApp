@@ -5,32 +5,31 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 import com.sun.lwuit.Display;
 
-import de.uulm.presenter.view.PresenterScreen;
+import de.uulm.presenter.view.WelcomeScreen;
 
 public class Main extends MIDlet {
 
-	PresenterScreen p;
+	private WelcomeScreen w;
 	
 	public Main() {
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
-		// TODO Auto-generated method stub
-
+		notifyDestroyed();
 	}
 
 	protected void pauseApp() {
-		// TODO Auto-generated method stub
-
 	}
 
 	protected void startApp() throws MIDletStateChangeException {
 		
 		Display.init(this);
-		//Display d = Display.getInstance();
-		p = new PresenterScreen();
-		p.init();
+		w = new WelcomeScreen(this);
+		w.show();
+	}
+	
+	public void exitApp(){
+		notifyDestroyed();
 	}
 
 }
