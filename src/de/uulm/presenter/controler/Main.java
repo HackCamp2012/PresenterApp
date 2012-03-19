@@ -3,25 +3,33 @@ package de.uulm.presenter.controler;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
+import com.sun.lwuit.Display;
+
+import de.uulm.presenter.view.WelcomeScreen;
+
 public class Main extends MIDlet {
 
+	private WelcomeScreen w;
+	
 	public Main() {
-		// TODO Auto-generated constructor stub
 	}
 
 	protected void destroyApp(boolean arg0) throws MIDletStateChangeException {
-		// TODO Auto-generated method stub
-
+		notifyDestroyed();
 	}
 
 	protected void pauseApp() {
-		// TODO Auto-generated method stub
-
 	}
 
 	protected void startApp() throws MIDletStateChangeException {
-		// TODO Auto-generated method stub
-
+		
+		Display.init(this);
+		w = new WelcomeScreen(this);
+		w.show();
+	}
+	
+	public void exitApp(){
+		notifyDestroyed();
 	}
 
 }
