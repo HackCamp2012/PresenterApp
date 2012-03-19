@@ -2,6 +2,8 @@ package de.uulm.presenter.device;
 
 import java.util.Vector;
 
+import de.uulm.presenter.connection.protocol.MessageConstants;
+
 public class KeyStroke {
 	private final Vector keys;
 	public KeyStroke() {
@@ -9,16 +11,17 @@ public class KeyStroke {
 	}
 	
 	public KeyStroke up(int keycode){
-		this.keys.addElement(new Key(keycode,true));
+		this.keys.addElement(new Key(keycode,MessageConstants.KEYUP));
 		return this;
 	}
 	public KeyStroke down(int keycode){
-		this.keys.addElement(new Key(keycode,false));
+		this.keys.addElement(new Key(keycode,MessageConstants.KEYDOWN));
 		return this;
 	}
 	
 	public KeyStroke press(int keycode){
-		return up(keycode).down(keycode); 
+		this.keys.addElement(new Key(keycode,MessageConstants.KEYPRESS));
+		return  this;
 	}
 
 	public Key[] getKeys(){

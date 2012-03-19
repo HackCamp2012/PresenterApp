@@ -5,16 +5,16 @@ import de.uulm.presenter.connection.protocol.MessageConstants;
 
 
 public class Key implements MessageConstants{
-	private final boolean isUp;
+	private final String action;
 	private final int keycode;
 	
-	public Key(int keycode, boolean isUp) {
+	public Key(int keycode, String action) {
 		this.keycode = keycode;
-		this.isUp=isUp;
+		this.action=action;
 	}
 
-	public boolean isUp() {
-		return isUp;
+	public String getAction() {
+		return action;
 	}
 
 	public int getKeycode() {

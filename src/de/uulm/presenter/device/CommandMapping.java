@@ -18,4 +18,10 @@ public class CommandMapping {
 	}
 	
 	
+	public static CommandMapping getDefaultMapping(){
+		CommandMapping ret = new CommandMapping();
+		ret.setNextSlide((new KeyStroke()).press(39));
+		ret.setPrevSlide((new KeyStroke()).press(37));
+		return ret;
+	}
 }
