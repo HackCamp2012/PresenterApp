@@ -37,7 +37,9 @@ public class RemoteDeviceMessenger {
 	public void connect(int index) throws IOException{
 		client.connect(index);
 	}
-	
+	public void sendAuthString(String auth){
+		this.client.sendMessage(auth);
+	}
 	protected void processKeys(Key[] k) {
 		for (int i = 0;i<k.length;i++){
 			JSONObject o = new JSONObject();
