@@ -42,11 +42,15 @@ public class BTClient implements RemoteHCIService, Runnable{
 		deviceListener = new BTDeviceListener(this);
 		
 		LocalDevice local_device = LocalDevice.getLocalDevice();
+		
         DiscoveryAgent disc_agent = local_device.getDiscoveryAgent();
+        
         local_device.setDiscoverable(DiscoveryAgent.GIAC);
-   	
+        
 		disc_agent.startInquiry(DiscoveryAgent.GIAC, deviceListener);
+		
 		Vector discDev = deviceListener.getDiscoveredDevices();//warning, this method blocks!
+		
 		Enumeration devices  = discDev.elements();
 		if (discDev.size()==0){
 			
@@ -59,10 +63,11 @@ public class BTClient implements RemoteHCIService, Runnable{
 	        	synchronized (deviceListener) {
 	        		RemoteDevice elem = (RemoteDevice)devices.nextElement();
 		        	disc_agent.searchServices(attrbs, u, elem, deviceListener);
+		
 		        	try{
 		    			deviceListener.wait();
 		    		} catch(InterruptedException e){e.printStackTrace();}
-		        	
+		    		
 		        	ServiceRecord r = deviceListener.getService();
 		        	if (r != null){
 		        		//service found
@@ -175,6 +180,7 @@ class BTDeviceListener implements DiscoveryListener{
 	}
 
 	public void inquiryCompleted(int discType) {
+		
 		synchronized(this){	
         	this.notify();
         }
@@ -182,6 +188,7 @@ class BTDeviceListener implements DiscoveryListener{
 	}
 
 	public void serviceSearchCompleted(int transID, int respCode) {
+		
 		synchronized(this){	
     		this.notify();
     	}
@@ -189,6 +196,7 @@ class BTDeviceListener implements DiscoveryListener{
 	}
 
 	public void servicesDiscovered(int transID, ServiceRecord[] servRecord) {
+		
 		this.service=servRecord[0];
 	
 	}

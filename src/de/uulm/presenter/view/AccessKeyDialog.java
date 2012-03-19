@@ -19,11 +19,14 @@ public class AccessKeyDialog extends Dialog implements ActionListener{
 		addComponent(keyInput);
 		addCommand(cancel);
 		addCommand(ok);
+		addCommandListener(this);
 		
 	}
-
+	public int getValue(){
+		return Integer.parseInt(keyInput.getText());
+	}
 	public void actionPerformed(ActionEvent evt) {
-		// TODO Auto-generated method stub
+		dispose();
 		
 	}
 	

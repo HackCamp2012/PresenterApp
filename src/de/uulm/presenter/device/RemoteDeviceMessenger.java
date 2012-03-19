@@ -25,13 +25,10 @@ public class RemoteDeviceMessenger {
 	
 
 	
-	public Vector getDevices(){
-		try {
-			return client.getDevices();
-		} catch (BluetoothStateException e) {
-			e.printStackTrace();
-		}
-		return null;
+	public Vector getDevices() throws BluetoothStateException{
+		
+		return client.getDevices();
+		
 	}
 	
 	public void connect(int index) throws IOException{

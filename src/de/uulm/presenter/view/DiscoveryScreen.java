@@ -1,5 +1,6 @@
 package de.uulm.presenter.view;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import com.sun.lwuit.*;
@@ -17,21 +18,22 @@ public class DiscoveryScreen extends MainStyle implements ActionListener{
 	private Command exit;
 	private Command connect;
 	private Main m;
+	private Vector devices;
+	private ButtonGroup group; 
 	
-	public DiscoveryScreen(Main m){
+	public DiscoveryScreen(Main m, Vector devices){
 		this.m = m;
 		setMainStyle();
+		this.devices = devices;
 		init();
 	}
 	
 	public void init(){
 		exit = new Command("Exit");
-		
 		connect = new Command("Connect");
 		
 		RadioButton rb;
-		Vector devices = RemoteDevice.getInstance().getDevices();
-		ButtonGroup group = new ButtonGroup();
+		group = new ButtonGroup();
 		
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		
@@ -75,8 +77,16 @@ public class DiscoveryScreen extends MainStyle implements ActionListener{
 			m.exitApp();
 		}
 		if(evt.getCommand().equals(connect)){
-			AccessKeyDialog dialog = new AccessKeyDialog();
-			dialog.show();
+			try {
+				RemoteDevice.getInstance().connect(group.getSelectedIndex());
+				AccessKeyDialog dialog = new AccessKeyDialog();
+				dialog.show();
+				int accessKey = dialog.getValue();
+				RemoteDevice.getInstance().sendAuthString(""+accessKey);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
 			//PresenterScreen p = new PresenterScreen();
 			//p.show();
 		}
