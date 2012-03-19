@@ -45,7 +45,8 @@ public class RemoteDeviceMessenger {
 				o.put("type", MessageConstants.KEY);
 				o.put("event", k[i].getAction());
 				o.put("keycode", k[i].getKeycode());
-				System.out.println( (o.toString()) );
+				this.client.sendMessage( o.toString() );
+				
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
