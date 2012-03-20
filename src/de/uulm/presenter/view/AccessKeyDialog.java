@@ -4,36 +4,48 @@ import com.sun.lwuit.*;
 import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
 
-public class AccessKeyDialog extends Dialog implements ActionListener{
+import de.uulm.presenter.connection.protocol.MessageListener;
+import de.uulm.presenter.device.RemoteDevice;
 
-	private final TextField keyInput;
-	private final Command ok;
+public class AccessKeyDialog extends Dialog implements ActionListener, MessageListener{
+
+	private final TextArea status;
 	private final Command cancel;
 	
 	public AccessKeyDialog(){
-		super("Access Key: ");
+		super("Authentication");
 		getStyle().setBgTransparency(200);
 		getStyle().setAlignment(CENTER);
 		
-		ok = new Command("OK");
 		cancel = new Command("Cancel");
 		
-		keyInput = new TextField("", 7);
-		keyInput.setConstraint(TextArea.NUMERIC);
+		status = new TextArea("Waiting for authentication");
+		status.setEditable(false);
+		status.getSelectedStyle().setBgTransparency(0);
+		status.getSelectedStyle().setFgColor(0xdddddd);
+		RemoteDevice.getInstance().addMessageListener(this);
 		
-		
-		
-		addComponent(keyInput);
-		addCommand(cancel);
-		addCommand(ok);
+		addComponent(status);
 		addCommandListener(this);
 		
 	}
-	public int getValue(){
-		return Integer.parseInt(keyInput.getText());
-	}
+	
 	public void actionPerformed(ActionEvent evt) {
-		dispose();
+		if(evt.getCommand().equals(cancel)){
+			dispose();
+		}
+	}
+	
+	public void aMessage(String s) {
+		status.setText(s);
+		if ("AUTHOK".equals(s)){
+			RemoteDevice.getInstance().removeMessageListener(this);
+			dispose();
+		}else if ("AUTHREJECT".equals(s)){
+			status.setText("Authentication rejected");
+			addCommand(cancel);
+		}
+		
 	}
 	
 }

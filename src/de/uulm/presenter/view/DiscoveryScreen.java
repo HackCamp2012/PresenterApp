@@ -95,8 +95,6 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 				RemoteDevice.getInstance().connect(group.getSelectedIndex());
 				AccessKeyDialog dialog = new AccessKeyDialog();
 				dialog.show(dialogTop, dialogBottom, 10, 10, false);
-				int accessKey = dialog.getValue();
-				RemoteDevice.getInstance().sendAuthString(""+accessKey);
 
 				PresenterScreen p = new PresenterScreen();
 				p.show();
@@ -110,7 +108,7 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 			Thread t = new Thread(this);
 			t.start();
 			sd = new SearchingDialog();
-			sd.show(dialogTop, dialogBottom, 10, 10, false);
+			sd.show((int)(height*0.33), dialogBottom, 10, 10, false);
 			
 			try {
 				t.join();

@@ -9,5 +9,6 @@
 			<attribute name="javadoc_location" value="jar:file:/C:/Users/Karo/Desktop/LWUIT_1_5/docs/javadocs.zip!/"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="con" path="org.elipse.mtj.JavaMEContainer/Nokia SDK 1.1 for Java/Nokia_SDK_1_1_Java"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
