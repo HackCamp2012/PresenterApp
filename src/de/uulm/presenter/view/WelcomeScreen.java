@@ -16,8 +16,7 @@ import de.uulm.presenter.view.style.MainStyle;
 public class WelcomeScreen extends MainStyle implements ActionListener, Runnable{
 	
 	private final Label title;
-	private final Label instr1;
-	private final Label instr2;
+	private final TextArea instr;
 	private final Command exit;
 	private final Command start;
 	private final Main m;
@@ -25,13 +24,13 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 	private Vector devices;
 	
 	public WelcomeScreen(Main m){
+		
 		this.m = m;
 		setMainStyle();
 		style.setAlignment(CENTER);
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		
-		String text1 = "Please start DesktopApp,";
-		String text2 = "then click \"start\"";
+		String text = "Please start DesktopApp,\nthen click \"start\"";
 		
 		exit = new Command("Exit");
 		start = new Command("Start");
@@ -43,21 +42,14 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 		title.getStyle().setFgColor(0xdddddd);
 		title.getStyle().setPadding(10, 10, 0, 0);
 		
-		instr1 = new Label(text1);
-		instr1.getStyle().setBgTransparency(0);
-		instr1.getStyle().setFgColor(0xdddddd);
-		instr1.setWidth(width);
-		instr1.setHeight(50);
-		
-		instr2 = new Label(text2);
-		instr2.getStyle().setBgTransparency(0);
-		instr2.getStyle().setFgColor(0xdddddd);
-		instr2.setWidth(width);
-		instr2.setHeight(50);
+		instr = new TextArea(text);
+		instr.setEditable(false);
+		instr.getSelectedStyle().setBgTransparency(0);
+		instr.getSelectedStyle().setFgColor(0xdddddd);
+		instr.getSelectedStyle().setBorder(null);
 		
 		addComponent(title);
-		addComponent(instr1);
-		addComponent(instr2);
+		addComponent(instr);
 		addCommand(exit);
 		addCommand(start);
 		addCommandListener(this);
@@ -78,6 +70,7 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 			}
 			DiscoveryScreen d = new DiscoveryScreen(m, devices);
 			d.show();
+			
 		}
 		if(evt.getCommand().equals(exit)){
 			m.exitApp();
@@ -89,8 +82,9 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 			devices = RemoteDevice.getInstance().getDevices();
 			sd.dispose();
 		} catch (BluetoothStateException e) {
+			ErrorScreen err = new ErrorScreen(e.getMessage());
+			err.show();
 			e.printStackTrace();
-			//TODO BT error dialog!
 		}
 		
 	}

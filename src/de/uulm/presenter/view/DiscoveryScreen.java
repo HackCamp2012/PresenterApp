@@ -101,6 +101,8 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 				PresenterScreen p = new PresenterScreen();
 				p.show();
 			} catch (IOException e) {
+				ErrorScreen err = new ErrorScreen(e.getMessage());
+				err.show();
 				e.printStackTrace();
 			}
 		}
@@ -125,8 +127,9 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 			devices=RemoteDevice.getInstance().getDevices();
 			sd.dispose();
 		} catch (BluetoothStateException e) {
+			ErrorScreen err = new ErrorScreen(e.getMessage());
+			err.show();
 			e.printStackTrace();
-			//TODO BT error dialog!
 		}
 		
 	}
