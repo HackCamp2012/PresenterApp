@@ -12,14 +12,17 @@ public class MainStyle extends Form{
 	protected Image bgImage;
 	protected Font f;
 	protected Style style;
-	protected int width;
-	protected int height;
+	protected final int width = Display.getInstance().getDisplayWidth();
+	protected final int height = Display.getInstance().getDisplayHeight();
+	public int dialogTop;
+	public int dialogBottom;
 	
 	public void setMainStyle(){
 		style = this.getStyle();
 		f = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_LARGE);
-		width = Display.getInstance().getDisplayWidth();
-		height = Display.getInstance().getDisplayHeight();
+		
+		dialogTop = (int) (height*0.66);
+		dialogBottom = (int) (height*0.1); 
 		
 		try {
 			//bgImage = Image.createImage("/images/background_red.png");

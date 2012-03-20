@@ -3,28 +3,33 @@ package de.uulm.presenter.view;
 import java.io.IOException;
 
 import com.sun.lwuit.*;
+import com.sun.lwuit.events.ActionEvent;
+import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.plaf.Style;
 import com.sun.lwuit.table.TableLayout;
 
+import de.uulm.presenter.device.RemoteDevice;
 import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
 
-public class PresenterScreen extends MainStyle{
+public class PresenterScreen extends MainStyle implements ActionListener{
 
 	private Image arrowRight = null;
 	private Image arrowLeft = null;
+	private final Command nextPage;
+	private final Command prevPage;
 	
 	public PresenterScreen(){
 		setMainStyle();
 		loadArrows();
-		init();
-	}
-	
-	public void init(){
+		
+		nextPage = new Command("");
+		prevPage = new Command("");
 		
 		Button next = new Button(arrowRight);
+		//next.setCommand(nextPage);
 		next.setSelectedStyle(PresenterStyle.getArrowStyle());
 		next.setPressedStyle(PresenterStyle.getArrowStyle());
 		next.getPressedStyle().setBgTransparency(50);
@@ -32,17 +37,28 @@ public class PresenterScreen extends MainStyle{
 		next.getStyle().setAlignment(CENTER);
 		next.getStyle().setMargin(0, 0, 0, 0);
 		next.getStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGNED_CENTER);
+		next.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent evt) {
+				RemoteDevice.getInstance().nextSlide();
+			}
+		});
 		
 		
 		Button back = new Button(arrowLeft);
+		//back.setCommand(prevPage);
 		back.setSelectedStyle(PresenterStyle.getArrowStyle());
 		back.setPressedStyle(PresenterStyle.getArrowStyle());
 		back.getPressedStyle().setBgTransparency(50);
 		back.getStyle().setBgTransparency(0);
 		back.getStyle().setAlignment(CENTER);
 		back.getStyle().setMargin(0, 0, 0, 0);
+		back.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				RemoteDevice.getInstance().prevSlide();
+			}
+		});
 		
-		
+		//TODO implement Timer
 		Button time = new Button("10 : 53");
 		time.setSelectedStyle(PresenterStyle.getTimerStyle(f));
 		
@@ -62,6 +78,7 @@ public class PresenterScreen extends MainStyle{
 		addComponent(next);
 		addComponent(time);
 		addComponent(back);
+		addCommandListener(this);
 	}
 	
 	private void loadArrows(){
@@ -74,5 +91,9 @@ public class PresenterScreen extends MainStyle{
 			Log.log("Image not found!", this.getClass(), "init");
 			e.printStackTrace();
 		}
+	}
+
+	public void actionPerformed(ActionEvent evt) {
+		
 	}
 }

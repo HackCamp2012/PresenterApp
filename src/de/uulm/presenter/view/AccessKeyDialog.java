@@ -12,10 +12,17 @@ public class AccessKeyDialog extends Dialog implements ActionListener{
 	
 	public AccessKeyDialog(){
 		super("Access Key: ");
+		getStyle().setBgTransparency(200);
+		getStyle().setAlignment(CENTER);
+		
 		ok = new Command("OK");
 		cancel = new Command("Cancel");
+		
 		keyInput = new TextField("", 7);
 		keyInput.setConstraint(TextArea.NUMERIC);
+		
+		
+		
 		addComponent(keyInput);
 		addCommand(cancel);
 		addCommand(ok);
@@ -27,7 +34,6 @@ public class AccessKeyDialog extends Dialog implements ActionListener{
 	}
 	public void actionPerformed(ActionEvent evt) {
 		dispose();
-		
 	}
 	
 }
