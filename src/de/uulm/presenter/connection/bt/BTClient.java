@@ -17,7 +17,6 @@ import javax.bluetooth.ServiceRecord;
 import javax.bluetooth.UUID;
 import javax.microedition.io.Connector;
 import javax.microedition.io.StreamConnection;
-import javax.microedition.io.file.ConnectionClosedException;
 
 
 import de.uulm.presenter.util.Log;
@@ -39,8 +38,9 @@ public class BTClient implements RemoteHCIService, Runnable{
 	
 	
 	public Vector getDevices() throws BluetoothStateException{
+		serviceDevices.setSize(0);
 		deviceListener = new BTDeviceListener(this);
-		
+		deviceListener.clearDevices();
 		LocalDevice local_device = LocalDevice.getLocalDevice();
 		
         DiscoveryAgent disc_agent = local_device.getDiscoveryAgent();
@@ -109,15 +109,17 @@ public class BTClient implements RemoteHCIService, Runnable{
 		while (listening) {            
 			try {
 				int len = in.read(b);
-				if (len==-1){
+				if (len == -1){
 					//exit
 					listening=false;
-					throw new ConnectionClosedException(); 
+					recv(null, -1); 
+					return;
 					
 				}
 			    recv(b, len);	
 			} catch (IOException e) {
-				e.printStackTrace();
+				
+				recv(null, -1);
 			}
 		}
         
@@ -143,10 +145,12 @@ public class BTClient implements RemoteHCIService, Runnable{
 }
 
 class BTDeviceListener implements DiscoveryListener{
-	private final BTClient client;
 	private final Vector discoveredDevices;
 	private ServiceRecord service;
-	
+	public void clearDevices(){
+		discoveredDevices.setSize(0);
+		service = null;
+	}
 	public final synchronized Vector getDiscoveredDevices(){
 		try{
 			this.wait();
@@ -160,7 +164,6 @@ class BTDeviceListener implements DiscoveryListener{
 		return r;
 	}
 	public BTDeviceListener(BTClient client) {
-		this.client = client;
 		discoveredDevices = new Vector();
 		
 	}

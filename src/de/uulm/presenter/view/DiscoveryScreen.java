@@ -10,30 +10,29 @@ import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.layouts.BoxLayout;
 
-import de.uulm.presenter.controler.Main;
+import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
+import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
-public class DiscoveryScreen extends MainStyle implements ActionListener, Runnable{
+public class DiscoveryScreen extends MainStyle implements ActionListener, Runnable, MessageListener{
 
 	private Command back;
 	private Command connect;
 	private Command reconnect;
-	private Main m;
 	private Vector devices;
 	private ButtonGroup group; 
 	private SearchingDialog sd;
 
-	public DiscoveryScreen(Main m, Vector devices){
-		this.m = m;
+	public DiscoveryScreen(Vector devices){
 		setMainStyle();
 		this.devices = devices;
 		init();
 	}
 
 	public void init(){
-		
+
 		back = new Command("Back");
 		connect = new Command("Connect");
 		reconnect = new Command("Search again");
@@ -78,58 +77,71 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 				addComponent(rb);
 			}
 
+			group.setSelected(0);
+			
 			addCommand(back);
 			addCommand(connect);
 		}
-		
+
 		addCommandListener(this);
+		//RemoteDevice.getInstance().addMessageListener(this);
 	}
 
 	public void actionPerformed(ActionEvent evt) {
 		if(evt.getCommand().equals(back)){
-			WelcomeScreen w = new WelcomeScreen(m);
+			WelcomeScreen w = new WelcomeScreen();
 			w.show();
 		}
 		if(evt.getCommand().equals(connect)){
 			try {
 				RemoteDevice.getInstance().connect(group.getSelectedIndex());
+				
 				AccessKeyDialog dialog = new AccessKeyDialog();
-				dialog.show(dialogTop, dialogBottom, 10, 10, false);
+				dialog.show((int)(height*0.33), dialogBottom, 10, 10, false);
 
 				PresenterScreen p = new PresenterScreen();
 				p.show();
 			} catch (IOException e) {
-				ErrorScreen err = new ErrorScreen(e.getMessage());
-				err.show();
-				e.printStackTrace();
+				ErrorScreen.getInstance().showError(e.getMessage());
+				//e.printStackTrace();
 			}
 		}
 		if(evt.getCommand().equals(reconnect)){
 			Thread t = new Thread(this);
 			t.start();
 			sd = new SearchingDialog();
-			sd.show((int)(height*0.33), dialogBottom, 10, 10, false);
-			
+			sd.show(dialogTop, dialogBottom, 10, 10, false);
+
 			try {
 				t.join();
 			} catch (InterruptedException e) {
+				ErrorScreen.getInstance().showError(e.getMessage());
 				e.printStackTrace();
 			}
-			DiscoveryScreen d = new DiscoveryScreen(m, devices);
+			DiscoveryScreen d = new DiscoveryScreen(devices);
 			d.show();
 		}
 	}
-	
+
 	public void run() {
 		try {
 			devices=RemoteDevice.getInstance().getDevices();
 			sd.dispose();
 		} catch (BluetoothStateException e) {
-			ErrorScreen err = new ErrorScreen(e.getMessage());
-			err.show();
+			ErrorScreen.getInstance().showError(e.getMessage());
 			e.printStackTrace();
 		}
-		
+
+	}
+
+	public void aMessage(String s) {
+		// TODO Auto-generated method stub
+		Log.log(s, this.getClass(), "aMessage");
+	}
+
+	public void errorOccured() {
+		Log.log("connection lost", this.getClass(), "errorOccured");
+		ErrorScreen.getInstance().showError("Connection lost");
 	}
 
 }

@@ -14,22 +14,16 @@ import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
 
-public class PresenterScreen extends MainStyle implements ActionListener{
+public class PresenterScreen extends MainStyle{
 
 	private Image arrowRight = null;
 	private Image arrowLeft = null;
-	private final Command nextPage;
-	private final Command prevPage;
 	
 	public PresenterScreen(){
 		setMainStyle();
 		loadArrows();
 		
-		nextPage = new Command("");
-		prevPage = new Command("");
-		
 		Button next = new Button(arrowRight);
-		//next.setCommand(nextPage);
 		next.setSelectedStyle(PresenterStyle.getArrowStyle());
 		next.setPressedStyle(PresenterStyle.getArrowStyle());
 		next.getPressedStyle().setBgTransparency(50);
@@ -45,7 +39,6 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 		
 		
 		Button back = new Button(arrowLeft);
-		//back.setCommand(prevPage);
 		back.setSelectedStyle(PresenterStyle.getArrowStyle());
 		back.setPressedStyle(PresenterStyle.getArrowStyle());
 		back.getPressedStyle().setBgTransparency(50);
@@ -78,7 +71,6 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 		addComponent(next);
 		addComponent(time);
 		addComponent(back);
-		addCommandListener(this);
 	}
 	
 	private void loadArrows(){
@@ -91,9 +83,5 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 			Log.log("Image not found!", this.getClass(), "init");
 			e.printStackTrace();
 		}
-	}
-
-	public void actionPerformed(ActionEvent evt) {
-		
 	}
 }

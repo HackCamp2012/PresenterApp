@@ -1,17 +1,23 @@
 package de.uulm.presenter.view;
 
 import com.sun.lwuit.*;
+import com.sun.lwuit.events.ActionEvent;
+import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.layouts.BoxLayout;
 
 import de.uulm.presenter.view.style.MainStyle;
 
-public class ErrorScreen extends MainStyle{
+public class ErrorScreen extends MainStyle implements ActionListener{
 
 	private Label title;
-	private TextArea errMsg;
+	private static TextArea errMsg;
 	private Command back;
+	private String errorMessage  = "";
 	
-	public ErrorScreen(String errorMessage){
+	private static ErrorScreen instance;
+	
+	private ErrorScreen(){
+		
 		setMainStyle();
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		style.setAlignment(CENTER);
@@ -34,5 +40,25 @@ public class ErrorScreen extends MainStyle{
 		addComponent(title);
 		addComponent(errMsg);
 		addCommand(back);
+		addCommandListener(this);
+	}
+	
+	public static ErrorScreen getInstance(){
+		if(instance == null){
+			instance = new ErrorScreen();
+		}
+		return instance;
+	}
+	
+	public void showError(String msg){
+		errMsg.setText(msg);
+		instance.show();
+	}
+
+	public void actionPerformed(ActionEvent evt) {
+		if(evt.getCommand().equals(back)){
+			WelcomeScreen w = new WelcomeScreen();
+			w.show();
+		}
 	}
 }

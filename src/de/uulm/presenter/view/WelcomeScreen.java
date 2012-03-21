@@ -4,7 +4,9 @@ import java.util.Vector;
 
 import javax.bluetooth.BluetoothStateException;
 
-import com.sun.lwuit.*;
+import com.sun.lwuit.Command;
+import com.sun.lwuit.Label;
+import com.sun.lwuit.TextArea;
 import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.layouts.BoxLayout;
@@ -19,18 +21,16 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 	private final TextArea instr;
 	private final Command exit;
 	private final Command start;
-	private final Main m;
 	private SearchingDialog sd;
 	private Vector devices;
 	
-	public WelcomeScreen(Main m){
+	public WelcomeScreen(){
 		
-		this.m = m;
 		setMainStyle();
 		style.setAlignment(CENTER);
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
 		
-		String text = "Please start DesktopApp,\nthen click \"start\"";
+		String text = "Please start DesktopApp,\nthen click \"Start\"";
 		
 		exit = new Command("Exit");
 		start = new Command("Start");
@@ -68,12 +68,12 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			DiscoveryScreen d = new DiscoveryScreen(m, devices);
+			DiscoveryScreen d = new DiscoveryScreen(devices);
 			d.show();
 			
 		}
 		if(evt.getCommand().equals(exit)){
-			m.exitApp();
+			Main.getInstance().exitApp();
 		}
 	}
 
@@ -82,8 +82,7 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 			devices = RemoteDevice.getInstance().getDevices();
 			sd.dispose();
 		} catch (BluetoothStateException e) {
-			ErrorScreen err = new ErrorScreen(e.getMessage());
-			err.show();
+			ErrorScreen.getInstance().showError(e.getMessage());
 			e.printStackTrace();
 		}
 		

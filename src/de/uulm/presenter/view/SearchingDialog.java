@@ -1,4 +1,4 @@
-package de.uulm.presenter.view;
+	package de.uulm.presenter.view;
 
 import com.sun.lwuit.Dialog;
 import com.sun.lwuit.Font;

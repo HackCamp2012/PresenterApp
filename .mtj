@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<mtjMetadata version="1.2.1.201101310801">
+<mtjMetadata jad="PresenterApp.jad" version="1.2.1.201101310801">
+   <device group="Nokia SDK 1.1 for Java" name="Nokia_SDK_1_1_Java"/>
    <signing projectSpecific="false" signProject="false">
       <alias/>
    </signing>
