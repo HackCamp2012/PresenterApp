@@ -1,5 +1,7 @@
 package de.uulm.presenter.view;
 
+import java.io.IOException;
+
 import com.sun.lwuit.*;
 import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
@@ -11,18 +13,21 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 
 	private final TextArea status;
 	private final Command cancel;
+	public boolean hasAccess = false;
+	private DiscoveryScreen dscreen;
 	
-	public AccessKeyDialog(){
+	public AccessKeyDialog(DiscoveryScreen screen){
 		super("Authentication");
 		getStyle().setBgTransparency(200);
 		getStyle().setAlignment(CENTER);
-		
+		dscreen = screen;
 		cancel = new Command("Cancel");
 		
 		status = new TextArea("Waiting for authentication");
 		status.setEditable(false);
 		status.getSelectedStyle().setBgTransparency(0);
 		status.getSelectedStyle().setBorder(null);
+		
 		RemoteDevice.getInstance().addMessageListener(this);
 		
 		addComponent(status);
@@ -36,11 +41,19 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 		}
 	}
 	
+	protected void onShowCompleted() {
+		try {
+			dscreen.connect();
+		} catch (IOException e) {
+			ErrorScreen.getInstance().showError(e.getMessage());
+		}
+	}
 	public void aMessage(String s) {
 		
 		//status.setText(s);
 		if ("AUTHOK".equals(s)){
 			RemoteDevice.getInstance().removeMessageListener(this);
+			hasAccess = true;
 			dispose();
 		}else if ("AUTHREJECT".equals(s)){
 			status.setText("Authentication rejected");

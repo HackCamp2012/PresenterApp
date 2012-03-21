@@ -93,18 +93,19 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 			w.show();
 		}
 		if(evt.getCommand().equals(connect)){
-			try {
-				RemoteDevice.getInstance().connect(group.getSelectedIndex());
 				
-				AccessKeyDialog dialog = new AccessKeyDialog();
+				AccessKeyDialog dialog = new AccessKeyDialog(this);
 				dialog.show((int)(height*0.33), dialogBottom, 10, 10, false);
-
-				PresenterScreen p = new PresenterScreen();
-				p.show();
-			} catch (IOException e) {
-				ErrorScreen.getInstance().showError(e.getMessage());
-				//e.printStackTrace();
-			}
+				
+				if(dialog.hasAccess){
+					PresenterScreen p = new PresenterScreen();
+					p.show();
+				}
+				else{
+					WelcomeScreen w = new WelcomeScreen();
+					w.show();
+				}
+			
 		}
 		if(evt.getCommand().equals(reconnect)){
 			Thread t = new Thread(this);
@@ -122,7 +123,11 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 			d.show();
 		}
 	}
-
+	
+	public void connect() throws IOException{
+		RemoteDevice.getInstance().connect(group.getSelectedIndex());
+	}
+	
 	public void run() {
 		try {
 			devices=RemoteDevice.getInstance().getDevices();

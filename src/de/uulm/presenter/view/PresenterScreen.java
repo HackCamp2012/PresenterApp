@@ -8,12 +8,13 @@ import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.plaf.Style;
 import com.sun.lwuit.table.TableLayout;
 
+import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
 
-public class PresenterScreen extends MainStyle{
+public class PresenterScreen extends MainStyle implements MessageListener{
 
 	private Image arrowRight = null;
 	private Image arrowLeft = null;
@@ -70,6 +71,7 @@ public class PresenterScreen extends MainStyle{
 		addComponent(next);
 		addComponent(time);
 		addComponent(back);
+		RemoteDevice.getInstance().addMessageListener(this);
 	}
 	
 	private void loadArrows(){
@@ -82,5 +84,15 @@ public class PresenterScreen extends MainStyle{
 			
 			e.printStackTrace();
 		}
+	}
+
+	public void aMessage(String s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void errorOccured() {
+		RemoteDevice.getInstance().removeMessageListener(this);
+		ErrorScreen.getInstance().showError("Connection lost!");
 	}
 }

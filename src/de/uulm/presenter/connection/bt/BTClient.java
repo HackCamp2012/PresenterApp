@@ -41,6 +41,7 @@ public class BTClient implements RemoteHCIService, Runnable{
 		serviceDevices.setSize(0);
 		deviceListener = new BTDeviceListener(this);
 		deviceListener.clearDevices();
+		services.setSize(0);
 		LocalDevice local_device = LocalDevice.getLocalDevice();
 		
         DiscoveryAgent disc_agent = local_device.getDiscoveryAgent();
