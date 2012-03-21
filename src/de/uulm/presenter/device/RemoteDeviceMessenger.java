@@ -12,12 +12,13 @@ import de.uulm.presenter.connection.protocol.MessageConstants;
 import de.uulm.presenter.connection.protocol.MessageProtocol;
 
 public class RemoteDeviceMessenger {
-	protected final MessageProtocol client;
+	protected MessageProtocol client;
 	protected final CommandMapping cmds;
 	public RemoteDeviceMessenger() {
 		cmds = CommandMapping.getDefaultMapping();
 		client = new MessageProtocol();
 	}
+	
 
 	public CommandMapping getCommandMapping(){
 		return cmds;

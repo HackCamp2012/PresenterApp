@@ -54,6 +54,7 @@ public class ErrorScreen extends MainStyle implements ActionListener{
 		errMsg.setText(msg);
 		instance.show();
 	}
+	
 
 	public void actionPerformed(ActionEvent evt) {
 		if(evt.getCommand().equals(back)){

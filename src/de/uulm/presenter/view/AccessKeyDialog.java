@@ -7,6 +7,7 @@ import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
 
 import de.uulm.presenter.connection.protocol.MessageListener;
+import de.uulm.presenter.controler.Main;
 import de.uulm.presenter.device.RemoteDevice;
  
 public class AccessKeyDialog extends Dialog implements ActionListener, MessageListener{
@@ -37,7 +38,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 	
 	public void actionPerformed(ActionEvent evt) {
 		if(evt.getCommand().equals(cancel)){
-			dispose();
+			Main.getInstance().exitApp();
 		}
 	}
 	
@@ -45,7 +46,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 		try {
 			dscreen.connect();
 		} catch (IOException e) {
-			ErrorScreen.getInstance().showError(e.getMessage());
+			ErrorScreen.getInstance().showError("Failed to connect. Please restart the App.");
 		}
 	}
 	public void aMessage(String s) {
@@ -63,8 +64,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 	}
 
 	public void errorOccured() {
-		//pass
-		//status.setText("error");
+		ErrorScreen.getInstance().showError("Connection lost");
 		
 	}
 	
