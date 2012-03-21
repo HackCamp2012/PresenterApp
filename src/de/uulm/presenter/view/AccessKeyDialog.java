@@ -6,8 +6,7 @@ import com.sun.lwuit.events.ActionListener;
 
 import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
-import de.uulm.presenter.util.Log;
-
+ 
 public class AccessKeyDialog extends Dialog implements ActionListener, MessageListener{
 
 	private final TextArea status;
@@ -38,7 +37,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 	}
 	
 	public void aMessage(String s) {
-		Log.log(s, this.getClass(), "aMessage");
+		
 		//status.setText(s);
 		if ("AUTHOK".equals(s)){
 			RemoteDevice.getInstance().removeMessageListener(this);
@@ -52,7 +51,6 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 
 	public void errorOccured() {
 		//pass
-		Log.log("connection lost", this.getClass(), "errorOccured");
 		//status.setText("error");
 		
 	}

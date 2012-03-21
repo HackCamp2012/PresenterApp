@@ -12,7 +12,6 @@ import com.sun.lwuit.layouts.BoxLayout;
 
 import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
-import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
@@ -84,10 +83,11 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 		}
 
 		addCommandListener(this);
-		//RemoteDevice.getInstance().addMessageListener(this);
+		RemoteDevice.getInstance().addMessageListener(this);
 	}
 
 	public void actionPerformed(ActionEvent evt) {
+		RemoteDevice.getInstance().removeMessageListener(this);
 		if(evt.getCommand().equals(back)){
 			WelcomeScreen w = new WelcomeScreen();
 			w.show();
@@ -136,11 +136,9 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 
 	public void aMessage(String s) {
 		// TODO Auto-generated method stub
-		Log.log(s, this.getClass(), "aMessage");
 	}
 
 	public void errorOccured() {
-		Log.log("connection lost", this.getClass(), "errorOccured");
 		ErrorScreen.getInstance().showError("Connection lost");
 	}
 

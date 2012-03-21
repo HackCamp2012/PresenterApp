@@ -9,7 +9,6 @@ import com.sun.lwuit.plaf.Style;
 import com.sun.lwuit.table.TableLayout;
 
 import de.uulm.presenter.device.RemoteDevice;
-import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
@@ -80,7 +79,7 @@ public class PresenterScreen extends MainStyle{
 			arrowRight = Image.createImage("/images/arrow_right.png").scaled(width-4, arrowHeight);
 			arrowLeft = Image.createImage("/images/arrow_left.png").scaled(width-4, arrowHeight);
 		} catch (IOException e) {
-			Log.log("Image not found!", this.getClass(), "init");
+			
 			e.printStackTrace();
 		}
 	}

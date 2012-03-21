@@ -5,7 +5,6 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 import com.sun.lwuit.Display;
 
-import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.WelcomeScreen;
 
 public class Main extends MIDlet {
@@ -15,7 +14,6 @@ public class Main extends MIDlet {
 	
 	public Main() {
 		instance = this;
-		Log.log("test", this.getClass(), "Constructor");
 	}
 	
 	public static Main getInstance(){
