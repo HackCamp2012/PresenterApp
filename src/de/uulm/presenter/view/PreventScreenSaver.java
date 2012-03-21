@@ -1,5 +1,6 @@
 package de.uulm.presenter.view;
 
+import com.nokia.mid.ui.DeviceControl;
 import com.sun.lwuit.Display;
 
 public class PreventScreenSaver{
@@ -17,7 +18,8 @@ public class PreventScreenSaver{
 					
 						e.printStackTrace();
 					}
-					Display.getInstance().flashBacklight(0);
+					//Display.getInstance().flashBacklight(100);
+					DeviceControl.setLights(0, 100);
 					
 				}
 				
