@@ -1,5 +1,5 @@
 MIDlet-Version: 1.0.0
-MIDlet-Vendor: MIDlet Suite Vendor
+MIDlet-Vendor: Nokia HackCamp 2012
 MIDlet-Jar-URL: PresenterApp.jar
 MicroEdition-Configuration: CLDC-1.1
 MIDlet-1: Main,,de.uulm.presenter.controler.Main

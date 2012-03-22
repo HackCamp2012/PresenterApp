@@ -41,6 +41,7 @@ public class BTClient implements RemoteHCIService, Runnable{
 		serviceDevices.setSize(0);
 		deviceListener = new BTDeviceListener(this);
 		deviceListener.clearDevices();
+		services.setSize(0);
 		LocalDevice local_device = LocalDevice.getLocalDevice();
 		
         DiscoveryAgent disc_agent = local_device.getDiscoveryAgent();
@@ -90,7 +91,7 @@ public class BTClient implements RemoteHCIService, Runnable{
 	}
 	
 	public boolean connect(int index) throws IndexOutOfBoundsException, IOException{
-		Log.log("connect...",this.getClass(),"connect");
+		
         ServiceRecord record = (ServiceRecord) services.elementAt(index);
         String url;
         url = record.getConnectionURL(0, false);

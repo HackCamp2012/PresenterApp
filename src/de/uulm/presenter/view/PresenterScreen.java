@@ -7,18 +7,22 @@ import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.plaf.Style;
 import com.sun.lwuit.table.TableLayout;
-import com.sun.perseus.model.UpdateListener;
 
+
+import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
+
 import de.uulm.presenter.gadgets.TimeEvent;
 import de.uulm.presenter.gadgets.TimeUpdateListener;
 import de.uulm.presenter.gadgets.Timer;
 import de.uulm.presenter.util.Log;
+
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
 
-public class PresenterScreen extends MainStyle implements ActionListener, TimeUpdateListener{
+
+public class PresenterScreen extends MainStyle implements ActionListener, TimeUpdateListener, MessageListener{
 
 	private Image arrowRight = null;
 	private Image arrowLeft = null;
@@ -75,6 +79,7 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		addComponent(next);
 		addComponent(time);
 		addComponent(back);
+		RemoteDevice.getInstance().addMessageListener(this);
 	}
 	
 	private void loadArrows(){
@@ -84,10 +89,11 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 			arrowRight = Image.createImage("/images/arrow_right.png").scaled(width-4, arrowHeight);
 			arrowLeft = Image.createImage("/images/arrow_left.png").scaled(width-4, arrowHeight);
 		} catch (IOException e) {
-			Log.log("Image not found!", this.getClass(), "init");
+			
 			e.printStackTrace();
 		}
 	}
+
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == back){
@@ -119,5 +125,15 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		long offset = currentTimerClick -lastTimerClick;
 		lastTimerClick = currentTimerClick;
 		return offset < 500;
+	}
+	public void aMessage(String s) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void errorOccured() {
+		RemoteDevice.getInstance().removeMessageListener(this);
+		ErrorScreen.getInstance().showError("Connection lost!");
+
 	}
 }

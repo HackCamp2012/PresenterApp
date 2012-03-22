@@ -6,6 +6,7 @@ import com.sun.lwuit.*;
 import com.sun.lwuit.plaf.Style;
 
 import de.uulm.presenter.util.Log;
+import de.uulm.presenter.view.PreventScreenSaver;
 
 public class MainStyle extends Form{
 

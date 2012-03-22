@@ -56,7 +56,7 @@ public class SearchingDialog extends Dialog implements Runnable{
 			}
 		
 		} catch (InterruptedException e) {
-			Log.log("InterruptedException", this.getClass(), "run");
+			
 			e.printStackTrace();
 		}
 	}

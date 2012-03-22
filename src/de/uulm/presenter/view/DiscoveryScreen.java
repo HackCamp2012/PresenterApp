@@ -12,7 +12,6 @@ import com.sun.lwuit.layouts.BoxLayout;
 
 import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
-import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
@@ -84,27 +83,32 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 		}
 
 		addCommandListener(this);
-		//RemoteDevice.getInstance().addMessageListener(this);
+		RemoteDevice.getInstance().addMessageListener(this);
 	}
 
 	public void actionPerformed(ActionEvent evt) {
+		RemoteDevice.getInstance().removeMessageListener(this);
 		if(evt.getCommand().equals(back)){
 			WelcomeScreen w = new WelcomeScreen();
 			w.show();
 		}
 		if(evt.getCommand().equals(connect)){
-			try {
-				RemoteDevice.getInstance().connect(group.getSelectedIndex());
-				
-				AccessKeyDialog dialog = new AccessKeyDialog();
+			
+				connect.setEnabled(false);
+				back.setEnabled(false);
+			
+				AccessKeyDialog dialog = new AccessKeyDialog(this);
 				dialog.show((int)(height*0.33), dialogBottom, 10, 10, false);
-
-				PresenterScreen p = new PresenterScreen();
-				p.show();
-			} catch (IOException e) {
-				ErrorScreen.getInstance().showError(e.getMessage());
-				//e.printStackTrace();
-			}
+				
+				if(dialog.hasAccess){
+					PresenterScreen p = new PresenterScreen();
+					p.show();
+				}
+				else{
+					WelcomeScreen w = new WelcomeScreen();
+					w.show();
+				}
+			
 		}
 		if(evt.getCommand().equals(reconnect)){
 			Thread t = new Thread(this);
@@ -122,7 +126,13 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 			d.show();
 		}
 	}
-
+	
+	public void connect() throws IOException{
+		RemoteDevice.getInstance().connect(group.getSelectedIndex());
+	}
+	
+	//TODO tastensperre
+	
 	public void run() {
 		try {
 			devices=RemoteDevice.getInstance().getDevices();
@@ -136,11 +146,9 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 
 	public void aMessage(String s) {
 		// TODO Auto-generated method stub
-		Log.log(s, this.getClass(), "aMessage");
 	}
 
 	public void errorOccured() {
-		Log.log("connection lost", this.getClass(), "errorOccured");
 		ErrorScreen.getInstance().showError("Connection lost");
 	}
 

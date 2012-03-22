@@ -5,17 +5,17 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 import com.sun.lwuit.Display;
 
-import de.uulm.presenter.util.Log;
+import de.uulm.presenter.view.PreventScreenSaver;
 import de.uulm.presenter.view.WelcomeScreen;
 
 public class Main extends MIDlet {
 
 	private WelcomeScreen w;
 	private static Main instance;
-	
+	private PreventScreenSaver ps;
 	public Main() {
 		instance = this;
-		Log.log("test", this.getClass(), "Constructor");
+		ps = new PreventScreenSaver();
 	}
 	
 	public static Main getInstance(){
