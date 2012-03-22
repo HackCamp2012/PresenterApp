@@ -15,6 +15,13 @@ public class MessageProtocol extends BTClient{
 	}
 	
 	public void recv(byte[] b,int cnt) {
+		if (b==null && cnt == -1){
+			while (remoteDevices.elements().hasMoreElements()){
+				MessageListener l = (MessageListener) remoteDevices.elements().nextElement();
+				l.errorOccured();
+			}
+			return;
+		}
 		String s = new String(b,0,cnt);
 		this.recvString(s);		
 	}

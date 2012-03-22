@@ -1,5 +1,6 @@
 /.mtj.tmp/
-
+/.classpath
+/build.properties
 .class
 
 /deployed/

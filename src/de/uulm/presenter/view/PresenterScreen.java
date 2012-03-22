@@ -7,29 +7,33 @@ import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
 import com.sun.lwuit.plaf.Style;
 import com.sun.lwuit.table.TableLayout;
+import com.sun.perseus.model.UpdateListener;
 
 import de.uulm.presenter.device.RemoteDevice;
+import de.uulm.presenter.gadgets.TimeEvent;
+import de.uulm.presenter.gadgets.TimeUpdateListener;
+import de.uulm.presenter.gadgets.Timer;
 import de.uulm.presenter.util.Log;
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
 
-public class PresenterScreen extends MainStyle implements ActionListener{
+public class PresenterScreen extends MainStyle implements ActionListener, TimeUpdateListener{
 
 	private Image arrowRight = null;
 	private Image arrowLeft = null;
-	private final Command nextPage;
-	private final Command prevPage;
+	private final Button next; 
+	private final Button back;
+	private final Button time;
+	private final Timer timer;
+	
+	private long lastTimerClick=0; 
 	
 	public PresenterScreen(){
 		setMainStyle();
 		loadArrows();
 		
-		nextPage = new Command("");
-		prevPage = new Command("");
-		
-		Button next = new Button(arrowRight);
-		//next.setCommand(nextPage);
+		next = new Button(arrowRight);
 		next.setSelectedStyle(PresenterStyle.getArrowStyle());
 		next.setPressedStyle(PresenterStyle.getArrowStyle());
 		next.getPressedStyle().setBgTransparency(50);
@@ -37,29 +41,20 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 		next.getStyle().setAlignment(CENTER);
 		next.getStyle().setMargin(0, 0, 0, 0);
 		next.getStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGNED_CENTER);
-		next.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent evt) {
-				RemoteDevice.getInstance().nextSlide();
-			}
-		});
+		next.addActionListener(this);
 		
 		
-		Button back = new Button(arrowLeft);
-		//back.setCommand(prevPage);
+		back = new Button(arrowLeft);
 		back.setSelectedStyle(PresenterStyle.getArrowStyle());
 		back.setPressedStyle(PresenterStyle.getArrowStyle());
 		back.getPressedStyle().setBgTransparency(50);
 		back.getStyle().setBgTransparency(0);
 		back.getStyle().setAlignment(CENTER);
 		back.getStyle().setMargin(0, 0, 0, 0);
-		back.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				RemoteDevice.getInstance().prevSlide();
-			}
-		});
+		back.addActionListener(this);
 		
-		//TODO implement Timer
-		Button time = new Button("10 : 53");
+		
+		time = new Button("");
 		time.setSelectedStyle(PresenterStyle.getTimerStyle(f));
 		
 		time.setPressedStyle(PresenterStyle.getTimerStyle(f));
@@ -71,6 +66,8 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 		time.getStyle().setAlignment(CENTER);
 		time.getStyle().setMargin(0, 0, 0, 0);
 		
+		timer = new Timer(); 
+		timer.addTimeUpdateListener(this);
 		
 		TableLayout table = new TableLayout(3, 1);
 		setLayout(table);
@@ -78,7 +75,6 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 		addComponent(next);
 		addComponent(time);
 		addComponent(back);
-		addCommandListener(this);
 	}
 	
 	private void loadArrows(){
@@ -94,6 +90,34 @@ public class PresenterScreen extends MainStyle implements ActionListener{
 	}
 
 	public void actionPerformed(ActionEvent evt) {
+		if (evt.getSource() == back){
+			RemoteDevice.getInstance().prevSlide();
+		}else if (evt.getSource() == next){
+			RemoteDevice.getInstance().nextSlide();	
+		}else if (evt.getSource() == time){
+			if (timeDblClick()){
+				timer.stop();
+			}else{
+				timer.playPause();
+			}
+		}
 		
+	}
+
+	public void timeUpdated(TimeEvent t) {
+		long eta = t.getElapsedTimestamp();
+		String etaFormattedString = TimeEvent.getFormattedTime(eta);
+		if (eta<60*60*1000){
+			etaFormattedString = etaFormattedString.substring(3);
+		}
+		
+		time.setText(etaFormattedString);
+	}
+	
+	private boolean timeDblClick(){
+		long currentTimerClick = System.currentTimeMillis();
+		long offset = currentTimerClick -lastTimerClick;
+		lastTimerClick = currentTimerClick;
+		return offset < 500;
 	}
 }

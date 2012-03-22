@@ -6,6 +6,7 @@ import com.sun.lwuit.events.ActionListener;
 
 import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
+import de.uulm.presenter.util.Log;
 
 public class AccessKeyDialog extends Dialog implements ActionListener, MessageListener{
 
@@ -22,7 +23,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 		status = new TextArea("Waiting for authentication");
 		status.setEditable(false);
 		status.getSelectedStyle().setBgTransparency(0);
-		status.getSelectedStyle().setFgColor(0xdddddd);
+		status.getSelectedStyle().setBorder(null);
 		RemoteDevice.getInstance().addMessageListener(this);
 		
 		addComponent(status);
@@ -37,7 +38,8 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 	}
 	
 	public void aMessage(String s) {
-		status.setText(s);
+		Log.log(s, this.getClass(), "aMessage");
+		//status.setText(s);
 		if ("AUTHOK".equals(s)){
 			RemoteDevice.getInstance().removeMessageListener(this);
 			dispose();
@@ -45,6 +47,13 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 			status.setText("Authentication rejected");
 			addCommand(cancel);
 		}
+		
+	}
+
+	public void errorOccured() {
+		//pass
+		Log.log("connection lost", this.getClass(), "errorOccured");
+		//status.setText("error");
 		
 	}
 	
