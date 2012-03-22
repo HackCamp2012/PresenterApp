@@ -59,6 +59,11 @@ public class Timer implements Runnable{
 		
 		
 	}
+	
+	public void reset(){
+		startTime=0;
+		elapsedTime=0;
+	}
 
 	public void run() {
 		while (!kill){

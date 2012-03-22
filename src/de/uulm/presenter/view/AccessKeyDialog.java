@@ -1,7 +1,5 @@
 package de.uulm.presenter.view;
 
-import java.io.IOException;
-
 import com.sun.lwuit.*;
 import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
@@ -15,17 +13,18 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 	private final TextArea status;
 	private final Command cancel;
 	public boolean hasAccess = false;
-	private DiscoveryScreen dscreen;
+	private final Font f = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_LARGE); 
 	
-	public AccessKeyDialog(DiscoveryScreen screen){
+	public AccessKeyDialog(){
 		super("Authentication");
 		getStyle().setBgTransparency(200);
 		getStyle().setAlignment(CENTER);
-		dscreen = screen;
+		
 		cancel = new Command("Cancel");
 		
 		status = new TextArea("Waiting for authentication");
 		status.setEditable(false);
+		status.getStyle().setFont(f);
 		status.getSelectedStyle().setBgTransparency(0);
 		status.getSelectedStyle().setBorder(null);
 		

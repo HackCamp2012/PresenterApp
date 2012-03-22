@@ -5,17 +5,16 @@ import java.io.IOException;
 import com.sun.lwuit.*;
 import com.sun.lwuit.events.ActionEvent;
 import com.sun.lwuit.events.ActionListener;
+import com.sun.lwuit.plaf.Border;
 import com.sun.lwuit.plaf.Style;
 import com.sun.lwuit.table.TableLayout;
 
 
 import de.uulm.presenter.connection.protocol.MessageListener;
 import de.uulm.presenter.device.RemoteDevice;
-
 import de.uulm.presenter.gadgets.TimeEvent;
 import de.uulm.presenter.gadgets.TimeUpdateListener;
 import de.uulm.presenter.gadgets.Timer;
-
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
 
@@ -32,8 +31,10 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 	
 	private final int timerHeight = (int)(height*0.2);
 	private final int arrowRightHeight = (int)(height*0.5);
-	private final int arrowLeftHeight = (int) (height*0.3);
+	private final int arrowLeftHeight = (int)(height*0.3)+10;
 	private final int arrowWidth =  width-2;
+	private final Font bold = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM); 
+	private final Font thin = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM); 
 	
 	private long lastTimerClick=0; 
 	
@@ -49,6 +50,7 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		next.getStyle().setAlignment(CENTER);
 		next.getStyle().setMargin(0, 0, 0, 0);
 		next.getStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGNED_CENTER);
+		next.getStyle().setBorder(Border.createEmpty());
 		next.addActionListener(this);
 		
 		
@@ -59,21 +61,29 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		back.getStyle().setBgTransparency(0);
 		back.getStyle().setAlignment(CENTER);
 		back.getStyle().setMargin(0, 0, 0, 0);
+		back.getStyle().setBorder(Border.createEmpty());
 		back.addActionListener(this);
 		
 		
 		time = new Button("00:00");
 		time.setHeight(timerHeight);
-		time.setSelectedStyle(PresenterStyle.getTimerStyle(f));
 		
-		time.setPressedStyle(PresenterStyle.getTimerStyle(f));
-		time.getPressedStyle().setBgTransparency(120);
+		time.setPressedStyle(PresenterStyle.getTimerStyle(thin));
+		time.setSelectedStyle(PresenterStyle.getTimerStyle(thin));
 		
-		time.getStyle().setBgTransparency(0);
-		time.getStyle().setFont(f);
+		time.getStyle().setFont(thin);
 		time.getStyle().setFgColor(0xFFFFFF);
 		time.getStyle().setAlignment(CENTER);
 		time.getStyle().setMargin(0, 0, 0, 0);
+		
+		time.getStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+		time.getPressedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+		time.getSelectedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+		
+		time.getStyle().setBgTransparency(120);
+		time.getPressedStyle().setBgTransparency(50);
+		time.getSelectedStyle().setBgTransparency(120);
+		
 		time.addActionListener(this);
 		
 		timer = new Timer(); 
@@ -109,10 +119,48 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		}else if (evt.getSource() == time){
 			if (timeDblClick()){
 				timer.stop();
+				timer.reset();
 				time.setText("00:00");
-				//timer.playPause();
+
+				time.getSelectedStyle().setFont(thin);
+				time.getPressedStyle().setFont(thin);
+				time.getStyle().setFont(thin);
+				
+				time.getStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+				time.getPressedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+				time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+				
+				time.getStyle().setBgTransparency(120);
+				time.getPressedStyle().setBgTransparency(120);
+				time.getSelectedStyle().setBgTransparency(120);
+				
 			}else{
-				timer.playPause();
+				if(timer.playPause()){
+					time.getStyle().setFont(bold);
+					time.getPressedStyle().setFont(bold);
+					time.getSelectedStyle().setFont(bold);
+					
+					time.getStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+					time.getPressedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+					time.getSelectedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+					
+					time.getStyle().setBgTransparency(50);
+					time.getPressedStyle().setBgTransparency(120);
+					time.getSelectedStyle().setBgTransparency(50);
+				}
+				else{
+					time.getStyle().setFont(thin);
+					time.getPressedStyle().setFont(thin);
+					time.getSelectedStyle().setFont(thin);
+					
+					time.getStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+					time.getPressedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+					time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+					
+					time.getStyle().setBgTransparency(120);
+					time.getPressedStyle().setBgTransparency(50);
+					time.getSelectedStyle().setBgTransparency(120);
+				}
 			}
 		}
 	}

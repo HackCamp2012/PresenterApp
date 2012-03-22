@@ -97,7 +97,7 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 				connect.setEnabled(false);
 				back.setEnabled(false);
 				connect();
-				AccessKeyDialog dialog = new AccessKeyDialog(this);
+				AccessKeyDialog dialog = new AccessKeyDialog();
 				dialog.show((int)(height*0.33), dialogBottom, 10, 10, false);
 				
 				if(dialog.hasAccess){
@@ -145,8 +145,6 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 		
 		
 	}
-	
-	//TODO tastensperre
 	
 	public void run() {
 		try {

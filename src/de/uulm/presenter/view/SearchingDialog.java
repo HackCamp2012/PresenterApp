@@ -20,7 +20,6 @@ public class SearchingDialog extends Dialog implements Runnable{
 		
 		instr = new Label("please be patient");
 		instr.getStyle().setBgTransparency(0);
-		searching.getStyle().setFont(f);
 		
 		getDialogStyle().setAlignment(CENTER);
 		
@@ -34,7 +33,6 @@ public class SearchingDialog extends Dialog implements Runnable{
 		t.start();
 		
 	}
-
 
 	public void run() {
 		int dots = 0;
