@@ -5,7 +5,7 @@ import javax.microedition.midlet.MIDletStateChangeException;
 
 import com.sun.lwuit.Display;
 
-//import de.uulm.presenter.view.PresenterScreen;
+import de.uulm.presenter.view.PresenterScreen;
 import de.uulm.presenter.view.PreventScreenSaver;
 import de.uulm.presenter.view.WelcomeScreen;
 
@@ -33,10 +33,10 @@ public class Main extends MIDlet {
 	protected void startApp() throws MIDletStateChangeException {
 		
 		Display.init(this);
-		w = new WelcomeScreen();
-		w.show();
-		//PresenterScreen p = new PresenterScreen();
-		//p.show();
+		//w = new WelcomeScreen();
+		//w.show();
+		PresenterScreen p = new PresenterScreen();
+		p.show();
 	}
 	
 	public void exitApp(){

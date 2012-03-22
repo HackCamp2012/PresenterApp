@@ -29,12 +29,17 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 	private final Button time;
 	private final Timer timer;
 	
-	private final int timerHeight = (int)(height*0.2);
-	private final int arrowRightHeight = (int)(height*0.5);
-	private final int arrowLeftHeight = (int)(height*0.3)+10;
+	private final int timerHeight = (int)(height*0.1);
+	private final int arrowRightHeight = (int)(height*0.6);
+	private final int arrowLeftHeight = (int)(height*0.3);
 	private final int arrowWidth =  width-2;
 	private final Font bold = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM); 
 	private final Font thin = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM); 
+	
+	private final int borderColorOut = 0xaaaaaa;
+	private final int borderColorIn = 0x777777;
+	private final int transOn = 80;
+	private final int transOff = 120;
 	
 	private long lastTimerClick=0; 
 	
@@ -43,6 +48,7 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		loadArrows();
 		
 		next = new Button(arrowRight);
+		next.setPreferredH(arrowRightHeight);
 		next.setSelectedStyle(PresenterStyle.getArrowStyle());
 		next.setPressedStyle(PresenterStyle.getArrowStyle());
 		next.getPressedStyle().setBgTransparency(50);
@@ -50,11 +56,13 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		next.getStyle().setAlignment(CENTER);
 		next.getStyle().setMargin(0, 0, 0, 0);
 		next.getStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGNED_CENTER);
+		
 		next.getStyle().setBorder(Border.createEmpty());
 		next.addActionListener(this);
 		
 		
 		back = new Button(arrowLeft);
+		back.setPreferredH(arrowLeftHeight);
 		back.setSelectedStyle(PresenterStyle.getArrowStyle());
 		back.setPressedStyle(PresenterStyle.getArrowStyle());
 		back.getPressedStyle().setBgTransparency(50);
@@ -66,7 +74,8 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		
 		
 		time = new Button("00:00");
-		time.setHeight(timerHeight);
+		time.setPreferredH(timerHeight);
+	
 		
 		time.setPressedStyle(PresenterStyle.getTimerStyle(thin));
 		time.setSelectedStyle(PresenterStyle.getTimerStyle(thin));
@@ -76,12 +85,12 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		time.getStyle().setAlignment(CENTER);
 		time.getStyle().setMargin(0, 0, 0, 0);
 		
-		time.getStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
-		time.getPressedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
-		time.getSelectedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+		time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+		time.getPressedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+		time.getSelectedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
 		
 		time.getStyle().setBgTransparency(120);
-		time.getPressedStyle().setBgTransparency(50);
+		time.getPressedStyle().setBgTransparency(transOn);
 		time.getSelectedStyle().setBgTransparency(120);
 		
 		time.addActionListener(this);
@@ -126,13 +135,17 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 				time.getPressedStyle().setFont(thin);
 				time.getStyle().setFont(thin);
 				
-				time.getStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
-				time.getPressedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
-				time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+				time.getStyle().setBgColor(0xffffff);
+				time.getPressedStyle().setBgColor(0xffffff);
+				time.getSelectedStyle().setBgColor(0xffffff);
 				
-				time.getStyle().setBgTransparency(120);
-				time.getPressedStyle().setBgTransparency(120);
-				time.getSelectedStyle().setBgTransparency(120);
+				time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+				time.getPressedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+				time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+				
+				time.getStyle().setBgTransparency(transOff);
+				time.getPressedStyle().setBgTransparency(transOff);
+				time.getSelectedStyle().setBgTransparency(transOff);
 				
 			}else{
 				if(timer.playPause()){
@@ -140,26 +153,34 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 					time.getPressedStyle().setFont(bold);
 					time.getSelectedStyle().setFont(bold);
 					
-					time.getStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
-					time.getPressedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
-					time.getSelectedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
+					time.getStyle().setBgColor(0xffffff);
+					time.getPressedStyle().setBgColor(0xffffff);
+					time.getSelectedStyle().setBgColor(0x222222);
 					
-					time.getStyle().setBgTransparency(50);
-					time.getPressedStyle().setBgTransparency(120);
-					time.getSelectedStyle().setBgTransparency(50);
+					time.getStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+					time.getPressedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+					time.getSelectedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+					
+					time.getStyle().setBgTransparency(transOn);
+					time.getPressedStyle().setBgTransparency(transOff);
+					time.getSelectedStyle().setBgTransparency(transOn);
 				}
 				else{
 					time.getStyle().setFont(thin);
 					time.getPressedStyle().setFont(thin);
 					time.getSelectedStyle().setFont(thin);
 					
-					time.getStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
-					time.getPressedStyle().setBorder(Border.createInsetBorder(2, 0xaaaaaa));
-					time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
+					time.getStyle().setBgColor(0x222222);
+					time.getPressedStyle().setBgColor(0x222222);
+					time.getSelectedStyle().setBgColor(0xffffff);
 					
-					time.getStyle().setBgTransparency(120);
-					time.getPressedStyle().setBgTransparency(50);
-					time.getSelectedStyle().setBgTransparency(120);
+					time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+					time.getPressedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+					time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+					
+					time.getStyle().setBgTransparency(transOff);
+					time.getPressedStyle().setBgTransparency(transOn);
+					time.getSelectedStyle().setBgTransparency(transOff);
 				}
 			}
 		}

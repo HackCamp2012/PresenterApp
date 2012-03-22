@@ -1,7 +1,9 @@
-MIDlet-Version: 1.0.0
-MIDlet-Vendor: Nokia HackCamp 2012
+MIDlet-1: PresenterApp,,de.uulm.presenter.controler.Main
+FlipInsensitive: True
 MIDlet-Jar-URL: PresenterApp.jar
 MicroEdition-Configuration: CLDC-1.1
-MIDlet-1: Main,,de.uulm.presenter.controler.Main
-MicroEdition-Profile: MIDP-2.1
+MIDlet-Version: 1.0.0
 MIDlet-Name: PresenterApp
+MIDlet-Vendor: NokiaHackCamp2012
+Nokia-MIDlet-App-Orientation: portrait
+MicroEdition-Profile: MIDP-2.1
