@@ -19,7 +19,9 @@ public class PreventScreenSaver{
 						e.printStackTrace();
 					}
 					//Display.getInstance().flashBacklight(100);
+					
 					DeviceControl.setLights(0, 100);
+					
 					
 				}
 				
