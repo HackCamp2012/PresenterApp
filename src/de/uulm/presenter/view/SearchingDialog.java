@@ -4,12 +4,10 @@ import com.sun.lwuit.Dialog;
 import com.sun.lwuit.Font;
 import com.sun.lwuit.Label;
 
-import de.uulm.presenter.util.Log;
-
-
 public class SearchingDialog extends Dialog implements Runnable{
 	
 	private Label searching;
+	private Label instr;
 	
 	private final Font f = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_LARGE); 
 	private final int numberOfDots = 5;
@@ -18,13 +16,16 @@ public class SearchingDialog extends Dialog implements Runnable{
 		searching = new Label("searching.");
 		searching.getStyle().setBgTransparency(0);
 		searching.getStyle().setFont(f);
-		
 		animateLabel();
 		
+		instr = new Label("please be patient");
+		instr.getStyle().setBgTransparency(0);
+		searching.getStyle().setFont(f);
+		
 		getDialogStyle().setAlignment(CENTER);
-		getDialogStyle().setBgTransparency(200);
 		
 		addComponent(searching);
+		addComponent(instr);
 	}
 	
 	

@@ -15,7 +15,6 @@ import de.uulm.presenter.device.RemoteDevice;
 import de.uulm.presenter.gadgets.TimeEvent;
 import de.uulm.presenter.gadgets.TimeUpdateListener;
 import de.uulm.presenter.gadgets.Timer;
-import de.uulm.presenter.util.Log;
 
 import de.uulm.presenter.view.style.MainStyle;
 import de.uulm.presenter.view.style.PresenterStyle;
@@ -30,6 +29,11 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 	private final Button back;
 	private final Button time;
 	private final Timer timer;
+	
+	private final int timerHeight = (int)(height*0.2);
+	private final int arrowRightHeight = (int)(height*0.5);
+	private final int arrowLeftHeight = (int) (height*0.3);
+	private final int arrowWidth =  width-2;
 	
 	private long lastTimerClick=0; 
 	
@@ -58,7 +62,8 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		back.addActionListener(this);
 		
 		
-		time = new Button("");
+		time = new Button("00:00");
+		time.setHeight(timerHeight);
 		time.setSelectedStyle(PresenterStyle.getTimerStyle(f));
 		
 		time.setPressedStyle(PresenterStyle.getTimerStyle(f));
@@ -73,21 +78,21 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		timer = new Timer(); 
 		timer.addTimeUpdateListener(this);
 		
+		
 		TableLayout table = new TableLayout(3, 1);
 		setLayout(table);
 		
 		addComponent(next);
-		addComponent(time);
 		addComponent(back);
+		addComponent(time);
 		RemoteDevice.getInstance().addMessageListener(this);
 	}
 	
+	
 	private void loadArrows(){
-		int arrowHeight = (int)(height*0.4);
-		
 		try {
-			arrowRight = Image.createImage("/images/arrow_right.png").scaled(width-4, arrowHeight);
-			arrowLeft = Image.createImage("/images/arrow_left.png").scaled(width-4, arrowHeight);
+			arrowRight = Image.createImage("/images/arrow_right.png").scaled(arrowWidth, arrowRightHeight);
+			arrowLeft = Image.createImage("/images/arrow_left.png").scaled(arrowWidth, arrowLeftHeight);
 		} catch (IOException e) {
 			
 			e.printStackTrace();
@@ -107,9 +112,9 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 				timer.playPause();
 			}
 		}
-		
 	}
 
+	
 	public void timeUpdated(TimeEvent t) {
 		long eta = t.getElapsedTimestamp();
 		String etaFormattedString = TimeEvent.getFormattedTime(eta);
@@ -118,7 +123,9 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		}
 		
 		time.setText(etaFormattedString);
+		repaint();
 	}
+	
 	
 	private boolean timeDblClick(){
 		long currentTimerClick = System.currentTimeMillis();
@@ -126,14 +133,14 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		lastTimerClick = currentTimerClick;
 		return offset < 500;
 	}
+	
+	
 	public void aMessage(String s) {
-		// TODO Auto-generated method stub
-		
 	}
 
+	
 	public void errorOccured() {
 		RemoteDevice.getInstance().removeMessageListener(this);
 		ErrorScreen.getInstance().showError("Connection lost!");
-
 	}
 }
