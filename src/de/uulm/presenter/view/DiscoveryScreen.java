@@ -93,10 +93,10 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 			w.show();
 		}
 		if(evt.getCommand().equals(connect)){
-			
+				
 				connect.setEnabled(false);
 				back.setEnabled(false);
-			
+				connect();
 				AccessKeyDialog dialog = new AccessKeyDialog(this);
 				dialog.show((int)(height*0.33), dialogBottom, 10, 10, false);
 				
@@ -127,8 +127,23 @@ public class DiscoveryScreen extends MainStyle implements ActionListener, Runnab
 		}
 	}
 	
-	public void connect() throws IOException{
-		RemoteDevice.getInstance().connect(group.getSelectedIndex());
+	public void connect(){
+		
+		Runnable connectAsync =  new Runnable() {
+			
+			public void run() {
+				try {
+					RemoteDevice.getInstance().connect(group.getSelectedIndex());
+				} catch (IOException e) {
+					ErrorScreen.getInstance().showError("Failed to connect. Please restart the App.");
+				}
+			}
+		};
+		Thread asyncConnectThread = new Thread(connectAsync);
+		asyncConnectThread.start();
+		
+		
+		
 	}
 	
 	//TODO tastensperre

@@ -42,13 +42,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 		}
 	}
 	
-	protected void onShowCompleted() {
-		try {
-			dscreen.connect();
-		} catch (IOException e) {
-			ErrorScreen.getInstance().showError("Failed to connect. Please restart the App.");
-		}
-	}
+	
 	public void aMessage(String s) {
 		
 		//status.setText(s);

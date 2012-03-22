@@ -74,6 +74,7 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		time.getStyle().setFgColor(0xFFFFFF);
 		time.getStyle().setAlignment(CENTER);
 		time.getStyle().setMargin(0, 0, 0, 0);
+		time.addActionListener(this);
 		
 		timer = new Timer(); 
 		timer.addTimeUpdateListener(this);
@@ -108,14 +109,15 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		}else if (evt.getSource() == time){
 			if (timeDblClick()){
 				timer.stop();
+				time.setText("00:00");
+				//timer.playPause();
 			}else{
 				timer.playPause();
 			}
 		}
 	}
 
-	
-	public void timeUpdated(TimeEvent t) {
+	public synchronized void timeUpdated(TimeEvent t) {
 		long eta = t.getElapsedTimestamp();
 		String etaFormattedString = TimeEvent.getFormattedTime(eta);
 		if (eta<60*60*1000){

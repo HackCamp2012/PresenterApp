@@ -2,6 +2,7 @@ package de.uulm.presenter.gadgets;
 
 
 
+
 public class TimeEvent {
 	private final long elapsed;
 	private final long endTime;
