@@ -28,6 +28,7 @@ public class AccessKeyDialog extends Dialog implements ActionListener, MessageLi
 		title = new Label("Authentication");
 		title.getStyle().setBgTransparency(0);
 		title.getStyle().setFont(f);
+		title.getStyle().setAlignment(CENTER);
 		
 		status = new TextArea("Waiting for authentication");
 		status.setEditable(false);

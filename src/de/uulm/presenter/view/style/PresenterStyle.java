@@ -32,7 +32,6 @@ public class PresenterStyle{
 		s.setMargin(0, 0, 0, 0);
 		s.setPadding(0, 0, 0, 0);
 		s.setBorder(Border.createEmpty());
-		s.setBackgroundType(Style.BACKGROUND_IMAGE_ALIGN_CENTER);
 		
 		return s;
 	}
