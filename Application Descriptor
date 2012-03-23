@@ -1,6 +1,7 @@
-MIDlet-1: PresenterApp,,de.uulm.presenter.controler.Main
+MIDlet-1: PresenterApp,images/Icon.png,de.uulm.presenter.controler.Main
 FlipInsensitive: True
 MIDlet-Jar-URL: PresenterApp.jar
+MIDlet-Icon: images/Icon.png
 MicroEdition-Configuration: CLDC-1.1
 MIDlet-Version: 1.0.0
 MIDlet-Name: PresenterApp

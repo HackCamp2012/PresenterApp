@@ -1,10 +1,12 @@
 package de.uulm.presenter.view;
 
+import java.io.IOException;
 import java.util.Vector;
 
 import javax.bluetooth.BluetoothStateException;
 
 import com.sun.lwuit.Command;
+import com.sun.lwuit.Image;
 import com.sun.lwuit.Label;
 import com.sun.lwuit.TextArea;
 import com.sun.lwuit.events.ActionEvent;
@@ -19,6 +21,7 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 	
 	private final Label title;
 	private final TextArea instr;
+	private final Label icon;
 	private final Command exit;
 	private final Command start;
 	private SearchingDialog sd;
@@ -29,6 +32,13 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 		setMainStyle();
 		style.setAlignment(CENTER);
 		setLayout(new BoxLayout(BoxLayout.Y_AXIS));
+		
+		Image i = null;
+		try {
+			i = Image.createImage("/images/iconBig.png").scaledHeight((int) (height*0.4));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
 		String text = "Please start DesktopApp,\nthen click \"Start\"";
 		
@@ -42,6 +52,11 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 		title.getStyle().setFgColor(0xdddddd);
 		title.getStyle().setPadding(10, 10, 0, 0);
 		
+		icon = new Label(i);
+		icon.getStyle().setAlignment(CENTER);
+		icon.getStyle().setBgTransparency(0);
+		icon.getStyle().setPadding(20, 30, 0, 0);
+		
 		instr = new TextArea(text);
 		instr.setEditable(false);
 		instr.getSelectedStyle().setBgTransparency(0);
@@ -49,6 +64,7 @@ public class WelcomeScreen extends MainStyle implements ActionListener, Runnable
 		instr.getSelectedStyle().setBorder(null);
 		
 		addComponent(title);
+		addComponent(icon);
 		addComponent(instr);
 		addCommand(exit);
 		addCommand(start);
