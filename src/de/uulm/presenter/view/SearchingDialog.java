@@ -1,8 +1,10 @@
-	package de.uulm.presenter.view;
+package de.uulm.presenter.view;
 
 import com.sun.lwuit.Dialog;
 import com.sun.lwuit.Font;
 import com.sun.lwuit.Label;
+import com.sun.lwuit.plaf.Border;
+import com.sun.lwuit.plaf.Style;
 
 public class SearchingDialog extends Dialog implements Runnable{
 	
@@ -22,6 +24,10 @@ public class SearchingDialog extends Dialog implements Runnable{
 		instr.getStyle().setBgTransparency(0);
 		
 		getDialogStyle().setAlignment(CENTER);
+		getDialogStyle().setBackgroundType(Style.BACKGROUND_GRADIENT_LINEAR_VERTICAL);
+		getDialogStyle().setBackgroundGradientStartColor(0xffffff);
+		getDialogStyle().setBackgroundGradientEndColor(0xbbbbbb);
+		getDialogStyle().setBorder(Border.createOutsetBorder(2, 0xaaaaaa));
 		
 		addComponent(searching);
 		addComponent(instr);

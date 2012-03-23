@@ -24,6 +24,18 @@ public class MainStyle extends Form{
 		dialogTop = (int) (height*0.66);
 		dialogBottom = (int) (height*0.1); 
 		
+		setGradientBg();
+		
+	}
+	
+	
+	public void setGradientBg(){
+		style.setBackgroundType(Style.BACKGROUND_GRADIENT_LINEAR_VERTICAL);
+		style.setBackgroundGradientStartColor(0x555555);
+		style.setBackgroundGradientEndColor(0);
+	}
+	
+	public void setImageBg(){
 		try {
 			//bgImage = Image.createImage("/images/background_red.png");
 			//bgImage = Image.createImage("/images/background_blue.jpg");

@@ -24,15 +24,19 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 
 	private Image arrowRight = null;
 	private Image arrowLeft = null;
+	private Image aRDown = null;
+	private Image aLDown = null;
+	private Image timerUp = null;
+	private Image timerDown = null;
 	private final Button next; 
 	private final Button back;
 	private final Button time;
 	private final Timer timer;
 	
 	private final int timerHeight = (int)(height*0.1);
-	private final int arrowRightHeight = (int)(height*0.6);
-	private final int arrowLeftHeight = (int)(height*0.3);
-	private final int arrowWidth =  width-2;
+	private final int arrowRightHeight = (int)(height*0.5);
+	private final int arrowLeftHeight = (int)(height*0.4);
+	//private final int arrowWidth =  width;
 	private final Font bold = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_BOLD, Font.SIZE_MEDIUM); 
 	private final Font thin = Font.createSystemFont(Font.FACE_SYSTEM, Font.STYLE_PLAIN, Font.SIZE_MEDIUM); 
 	
@@ -45,37 +49,50 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 	
 	public PresenterScreen(){
 		setMainStyle();
-		loadArrows();
+		loadImages();
 		
 		next = new Button(arrowRight);
+		next.setPressedIcon(aRDown);
 		next.setPreferredH(arrowRightHeight);
+		next.setPreferredW(width+2);
+		
 		next.setSelectedStyle(PresenterStyle.getArrowStyle());
 		next.setPressedStyle(PresenterStyle.getArrowStyle());
-		next.getPressedStyle().setBgTransparency(50);
-		next.getStyle().setBgTransparency(0);
 		next.getStyle().setAlignment(CENTER);
 		next.getStyle().setMargin(0, 0, 0, 0);
-		next.getStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGNED_CENTER);
-		
+		next.getStyle().setPadding(0, 0, 0, 0);
 		next.getStyle().setBorder(Border.createEmpty());
+		
 		next.addActionListener(this);
 		
 		
 		back = new Button(arrowLeft);
+		back.setPressedIcon(aLDown);
 		back.setPreferredH(arrowLeftHeight);
+		back.setPreferredW(width);
+		
 		back.setSelectedStyle(PresenterStyle.getArrowStyle());
 		back.setPressedStyle(PresenterStyle.getArrowStyle());
-		back.getPressedStyle().setBgTransparency(50);
-		back.getStyle().setBgTransparency(0);
 		back.getStyle().setAlignment(CENTER);
 		back.getStyle().setMargin(0, 0, 0, 0);
+		back.getStyle().setPadding(0, 0, 0, 0);
 		back.getStyle().setBorder(Border.createEmpty());
+		
 		back.addActionListener(this);
 		
 		
 		time = new Button("00:00");
 		time.setPreferredH(timerHeight);
-	
+		time.setPreferredW(width);
+		
+		time.getStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGN_CENTER);
+		time.getStyle().setBgImage(timerUp);
+		
+		time.getPressedStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGN_CENTER);
+		time.getPressedStyle().setBgImage(timerDown);
+		
+		time.getSelectedStyle().setBackgroundType(Style.BACKGROUND_IMAGE_ALIGN_CENTER);
+		time.getSelectedStyle().setBgImage(timerDown);
 		
 		time.setPressedStyle(PresenterStyle.getTimerStyle(thin));
 		time.setSelectedStyle(PresenterStyle.getTimerStyle(thin));
@@ -84,14 +101,16 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		time.getStyle().setFgColor(0xFFFFFF);
 		time.getStyle().setAlignment(CENTER);
 		time.getStyle().setMargin(0, 0, 0, 0);
+		time.getStyle().setPadding(0, 0, 0, 0);
+		time.getStyle().setBorder(Border.createEmpty());
 		
-		time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-		time.getPressedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
-		time.getSelectedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+//		time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//		time.getPressedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+//		time.getSelectedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
 		
-		time.getStyle().setBgTransparency(120);
-		time.getPressedStyle().setBgTransparency(transOn);
-		time.getSelectedStyle().setBgTransparency(120);
+//		time.getStyle().setBgTransparency(120);
+//		time.getPressedStyle().setBgTransparency(transOn);
+//		time.getSelectedStyle().setBgTransparency(120);
 		
 		time.addActionListener(this);
 		
@@ -108,17 +127,6 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 		RemoteDevice.getInstance().addMessageListener(this);
 	}
 	
-	
-	private void loadArrows(){
-		try {
-			arrowRight = Image.createImage("/images/arrow_right.png").scaled(arrowWidth, arrowRightHeight);
-			arrowLeft = Image.createImage("/images/arrow_left.png").scaled(arrowWidth, arrowLeftHeight);
-		} catch (IOException e) {
-			
-			e.printStackTrace();
-		}
-	}
-
 
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == back){
@@ -131,61 +139,85 @@ public class PresenterScreen extends MainStyle implements ActionListener, TimeUp
 				timer.reset();
 				time.setText("00:00");
 
+				time.released();
+				
 				time.getSelectedStyle().setFont(thin);
 				time.getPressedStyle().setFont(thin);
 				time.getStyle().setFont(thin);
 				
-				time.getStyle().setBgColor(0xffffff);
-				time.getPressedStyle().setBgColor(0xffffff);
-				time.getSelectedStyle().setBgColor(0xffffff);
-				
-				time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-				time.getPressedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-				time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-				
-				time.getStyle().setBgTransparency(transOff);
-				time.getPressedStyle().setBgTransparency(transOff);
-				time.getSelectedStyle().setBgTransparency(transOff);
+//				time.getStyle().setBgColor(0xffffff);
+//				time.getPressedStyle().setBgColor(0xffffff);
+//				time.getSelectedStyle().setBgColor(0xffffff);
+//				
+//				time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//				time.getPressedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//				time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//				
+//				time.getStyle().setBgTransparency(transOff);
+//				time.getPressedStyle().setBgTransparency(transOff);
+//				time.getSelectedStyle().setBgTransparency(transOff);
 				
 			}else{
 				if(timer.playPause()){
+					
+					time.pressed();
+					
 					time.getStyle().setFont(bold);
 					time.getPressedStyle().setFont(bold);
 					time.getSelectedStyle().setFont(bold);
 					
-					time.getStyle().setBgColor(0xffffff);
-					time.getPressedStyle().setBgColor(0xffffff);
-					time.getSelectedStyle().setBgColor(0x222222);
-					
-					time.getStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
-					time.getPressedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-					time.getSelectedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
-					
-					time.getStyle().setBgTransparency(transOn);
-					time.getPressedStyle().setBgTransparency(transOff);
-					time.getSelectedStyle().setBgTransparency(transOn);
+//					time.getStyle().setBgColor(0xffffff);
+//					time.getPressedStyle().setBgColor(0xffffff);
+//					time.getSelectedStyle().setBgColor(0x222222);
+//					
+//					time.getStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+//					time.getPressedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//					time.getSelectedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+//					
+//					time.getStyle().setBgTransparency(transOn);
+//					time.getPressedStyle().setBgTransparency(transOff);
+//					time.getSelectedStyle().setBgTransparency(transOn);
 				}
 				else{
+					
+					time.released();
+					
 					time.getStyle().setFont(thin);
 					time.getPressedStyle().setFont(thin);
 					time.getSelectedStyle().setFont(thin);
 					
-					time.getStyle().setBgColor(0x222222);
-					time.getPressedStyle().setBgColor(0x222222);
-					time.getSelectedStyle().setBgColor(0xffffff);
-					
-					time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-					time.getPressedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
-					time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
-					
-					time.getStyle().setBgTransparency(transOff);
-					time.getPressedStyle().setBgTransparency(transOn);
-					time.getSelectedStyle().setBgTransparency(transOff);
+//					time.getStyle().setBgColor(0x222222);
+//					time.getPressedStyle().setBgColor(0x222222);
+//					time.getSelectedStyle().setBgColor(0xffffff);
+//					
+//					time.getStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//					time.getPressedStyle().setBorder(Border.createInsetBorder(2, borderColorIn));
+//					time.getSelectedStyle().setBorder(Border.createOutsetBorder(2, borderColorOut));
+//					
+//					time.getStyle().setBgTransparency(transOff);
+//					time.getPressedStyle().setBgTransparency(transOn);
+//					time.getSelectedStyle().setBgTransparency(transOff);
 				}
 			}
 		}
 	}
 
+	
+	private void loadImages(){
+		try {
+			arrowRight = Image.createImage("/images/r.png").scaled(width, arrowRightHeight);
+			arrowLeft = Image.createImage("/images/l.png").scaled(width, arrowLeftHeight);
+			aRDown = Image.createImage("/images/rp.png").scaled(width, arrowRightHeight);
+			aLDown = Image.createImage("/images/lp.png").scaled(width, arrowLeftHeight);
+			timerUp = Image.createImage("/images/t.png").scaled(width, timerHeight);
+			timerDown = Image.createImage("/images/tp.png").scaled(width, timerHeight);
+		} catch (IOException e) {
+			
+			e.printStackTrace();
+		}
+	}
+
+	
 	public synchronized void timeUpdated(TimeEvent t) {
 		long eta = t.getElapsedTimestamp();
 		String etaFormattedString = TimeEvent.getFormattedTime(eta);

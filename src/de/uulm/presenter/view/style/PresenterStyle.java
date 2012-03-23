@@ -17,6 +17,7 @@ public class PresenterStyle{
 		s.setBgTransparency(0);
 		s.setAlignment(Component.CENTER);
 		s.setMargin(0, 0, 0, 0);
+		s.setPadding(0, 0, 0, 0);
 		s.setBorder(Border.createEmpty());
 		
 		return s;
@@ -29,6 +30,9 @@ public class PresenterStyle{
 		s.setFgColor(0xffffff);
 		s.setAlignment(Component.CENTER);
 		s.setMargin(0, 0, 0, 0);
+		s.setPadding(0, 0, 0, 0);
+		s.setBorder(Border.createEmpty());
+		s.setBackgroundType(Style.BACKGROUND_IMAGE_ALIGN_CENTER);
 		
 		return s;
 	}
